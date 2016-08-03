@@ -1,5 +1,7 @@
 # a-aviator
 
+Based on the original "The Aviator": https://github.com/yakudoo/TheAviator, see article by Karim Maaloul on Codrops: http://tympanus.net/codrops/2016/04/26/the-aviator-animating-basic-3d-scene-threejs/
+
 ### Installation
 
 First make sure you have Node installed.
@@ -27,7 +29,3 @@ If you wish to serve the site from a different port:
 
     PORT=8000 npm start
 
-
-## License
-
-This program is free software and is distributed under an [MIT License](LICENSE).
