@@ -1,0 +1,17 @@
+{
+  "name": "a-aviator",
+  "author":{ 
+    "name" : "Ramon Lamana",
+    "url" : "http://rlamana.com/"
+  },
+  "description": "A-Aviator: Karim Maaloul's 'The Aviator' using A-Frame",
+  "version": "0.0.1",
+  "license": "MIT",
+  "dependencies": {
+    "aframe": "aframevr/aframe"
+  },
+  "keywords": [
+    "aframe",
+    "aframe-example"
+  ]
+}
