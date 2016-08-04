@@ -210,6 +210,72 @@
           position="0 15 0" 
           material="color: #f25346; shading: flat; shader: phong"></a-entity>
 
+        <!-- Right Wheel --> 
+
+        <a-entity id="wheel-r" 
+          geometry="primitive: box; width: 30; height: 15; depth: 10; buffer: false"  
+          shadow="cast: true; receive: true"
+          position="25 -20 25" 
+          material="color: #f25346; shading: flat; shader: phong"></a-entity>
+
+        <a-entity id="tire-r" 
+          geometry="primitive: box; width: 24; height: 24; depth: 4; buffer: false" 
+          shadow="cast: true; receive: true"
+          position="25 -28 25" 
+          material="color: #23190f; shading: flat; shader: phong">
+
+          <a-entity id="tire-axis-r" 
+            geometry="primitive: box; width: 10; height: 10; depth: 6; buffer: false" 
+            shadow="cast: true; receive: true"
+            position="0 0 0" 
+            material="color: #59332e; shading: flat; shader: phong"></a-entity>
+        </a-entity>
+
+        <!-- Left Wheel --> 
+
+        <a-entity id="wheel-l" 
+          geometry="primitive: box; width: 30; height: 15; depth: 10; buffer: false"  
+          shadow="cast: true; receive: true"
+          position="25 -20 -25" 
+          material="color: #f25346; shading: flat; shader: phong"></a-entity>
+
+        <a-entity id="tire-l" 
+          geometry="primitive: box; width: 24; height: 24; depth: 4; buffer: false" 
+          shadow="cast: true; receive: true"
+          position="25 -28 -25" 
+          material="color: #23190f; shading: flat; shader: phong">
+
+          <a-entity id="tire-axis-l" 
+            geometry="primitive: box; width: 10; height: 10; depth: 6; buffer: false" 
+            shadow="cast: true; receive: true"
+            position="0 0 0" 
+            material="color: #59332e; shading: flat; shader: phong"></a-entity>
+        </a-entity>
+
+        <!-- Back Wheel --> 
+
+        <a-entity id="tire-b" 
+          geometry="primitive: box; width: 24; height: 24; depth: 4; buffer: false" 
+          shadow="cast: true; receive: true"
+          position="-35 -5 0" 
+          scale=".5 .5 .5"
+          material="color: #23190f; shading: flat; shader: phong">
+
+          <a-entity id="tire-axis-b" 
+            geometry="primitive: box; width: 10; height: 10; depth: 6; buffer: false" 
+            shadow="cast: true; receive: true"
+            position="0 0 0" 
+            material="color: #59332e; shading: flat; shader: phong"></a-entity>
+        </a-entity>
+
+        <a-entity id="suspension" 
+          geometry="primitive: box; width: 4; height: 20; depth: 4; buffer: false"  
+          shadow="cast: true; receive: true"
+          position="-32 3 0" 
+          rotation="0 0 -17"
+          material="color: #f25346; shading: flat; shader: phong"></a-entity>
+
+
         <a-entity>
           <a-entity id="propeller" 
             geometry="primitive: box; width: 20; height: 10; depth: 10; buffer: false" 

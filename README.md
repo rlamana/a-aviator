@@ -1,6 +1,7 @@
 # A-Aviator
+A-Aviator: Karim Maaloul's 'The Aviator' using A-Frame
 
-Based on the original "The Aviator": https://github.com/yakudoo/TheAviator, see article by Karim Maaloul on Codrops: http://tympanus.net/codrops/2016/04/26/the-aviator-animating-basic-3d-scene-threejs/
+See original article on Codrops: http://tympanus.net/codrops/2016/04/26/the-aviator-animating-basic-3d-scene-threejs/
 
 ### Installation
 
