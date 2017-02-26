@@ -5,7 +5,7 @@
 AFRAME.registerComponent('shadows', {
   schema: { default: true },
 
-  init: function () {
+  init() {
     if (this.el.tagName === 'A-SCENE' && this.data) {
       this.el.renderer.shadowMap.enabled = true;
       this.el.renderer.antialias = true;
@@ -33,10 +33,11 @@ AFRAME.registerComponent('shadow', {
     mapHeight:    { type: 'number' }
   },
 
-  update: function () {
-    var object, data = this.data;
+  update() {
+    let object;
+    const data = this.data;
     if (this.el.hasAttribute('light')) {
-      var light = this.el.getObject3D('light');
+      const light = this.el.getObject3D('light');
       light.shadow.camera.left    = data['cameraLeft'] || -400;
       light.shadow.camera.right   = data['cameraRight'] || 400;
       light.shadow.camera.top     = data['cameraTop'] || 400;

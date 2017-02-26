@@ -3,8 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>A-Aviator: Aviator using A-Frame</title>
-    <script src="node_modules/aframe/dist/aframe.min.js"></script>
-    <script src="phong.js"></script>
+    <script src="https://aframe.io/releases/0.5.0/aframe.js"></script>
     <script src="shadow.js"></script>
   </head>
   <body style="background: linear-gradient(#e4e0ba, #f7d9aa);">
@@ -12,14 +11,14 @@
       const HEIGHT = window.innerHeight;
       const WIDTH = window.innerWidth;
       
-      var mouseInput = {
+      const mouseInput = {
         position: {
           x: 0.0, 
           y: 0.0
         }
       };
 
-      document.addEventListener('mousemove', function(event) {
+      document.addEventListener('mousemove', (event) => {
         mouseInput.position = {
           // Here we are converting the mouse position value received to a normalized 
           // value varying between -1 and 1; this is the formula for the horizontal axis:
@@ -40,7 +39,7 @@
           default: 'normal'
         },
 
-        update: function () {
+        update() {
           var mesh;
           if (this.data === 'cool') {
             mesh = this.el.getOrCreateObject3D('mesh', THREE.Mesh);
@@ -60,17 +59,14 @@
       AFRAME.registerComponent('with-waves', {
         dependencies: ['geometry'],
 
-        update: function () {
-          var mesh = this.el.getOrCreateObject3D('mesh', THREE.Mesh);
+        update() {
+          const mesh = this.el.getOrCreateObject3D('mesh', THREE.Mesh);
           mesh.geometry.mergeVertices();
 
           // Create an array to store new data associated to each vertex.
           this.waves = [];
 
-          for (var i=0; i<mesh.geometry.vertices.length; i++){
-            // Get each vertex.
-            var v = mesh.geometry.vertices[i];
-
+          for (const v of mesh.geometry.vertices) {
             // Store some data associated to it.
             this.waves.push({
               x: v.x,
@@ -84,13 +80,12 @@
           };
         },
 
-        tick: function (time) {
-          var mesh = this.el.getOrCreateObject3D('mesh', THREE.Mesh);
-          var vertices = mesh.geometry.vertices;
-
-          for (var i=0; i<vertices.length; i++){
-            var v = vertices[i]; // Get the data associated to it.
-            var vprops = this.waves[i];
+        tick(time) {
+          const mesh = this.el.getOrCreateObject3D('mesh', THREE.Mesh);
+ 
+          for (let i = 0; i < mesh.geometry.vertices.length; i++){
+            const v = mesh.geometry.vertices[i]; // Get the data associated to it.
+            const vprops = this.waves[i];
             
             // Update the position of the vertex.
             v.x = vprops.x + Math.cos(vprops.ang)*vprops.amp;
@@ -109,50 +104,102 @@
         }
       });
 
-
-      AFRAME.registerComponent('cloud', {
-        update: function () {
-          var mesh = this.el.getOrCreateObject3D('mesh', THREE.Mesh);
-          var geometry = mesh.geometry = new THREE.BoxGeometry(20,20,20);
-
+      AFRAME.registerComponent('sky', {
+        _createCloud() {
+          // Create an empty container that will hold the different parts of the cloud
+          const mesh = new THREE.Object3D();
+          
+          // create a cube geometry;
+          // this shape will be duplicated to create the cloud
+          var geom = new THREE.BoxGeometry(20,20,20);
+          
+          // Create a material; a simple white material will do the trick
+          var mat = new THREE.MeshStandardMaterial({
+            color: '#ffffff',  
+          });
+          
+          // duplicate the geometry a random number of times
           var nBlocs = 3+Math.floor(Math.random()*3);
-          for (var i=0; i < nBlocs; i++ ){
+          for (var i=0; i<nBlocs; i++ ) {
             
-            // Create the mesh by cloning the geometry.
+            // create the mesh by cloning the geometry
             var m = new THREE.Mesh(geom, mat); 
             
-            // Set the position and the rotation of each cube randomly.
+            // set the position and the rotation of each cube randomly
             m.position.x = i*15;
             m.position.y = Math.random()*10;
             m.position.z = Math.random()*10;
             m.rotation.z = Math.random()*Math.PI*2;
             m.rotation.y = Math.random()*Math.PI*2;
             
-            // Set the size of the cube randomly.
+            // set the size of the cube randomly
             var s = .1 + Math.random()*.9;
             m.scale.set(s,s,s);
             
-            // Allow each cube to cast and to receive shadows.
+            // allow each cube to cast and to receive shadows
             m.castShadow = true;
             m.receiveShadow = true;
             
             // add the cube to the container we first created
             mesh.add(m);
           } 
+          return mesh;
+        },
+
+        update() {
+          const mesh = this.el.getOrCreateObject3D('mesh', THREE.Mesh);
+          const geometry = mesh.geometry = new THREE.BoxGeometry(20,20,20);
+          
+          // Choose a number of clouds to be scattered in the sky.
+          this.nClouds = 20;
+          
+          // To distribute the clouds consistently,
+          // we need to place them according to a uniform angle.
+          const stepAngle = Math.PI*2 / this.nClouds;
+          
+          // create the clouds
+          for(let i=0; i<this.nClouds; i++){
+            const c = this._createCloud();
+           
+            // Set the rotation and the position of each cloud;
+            // for that we use a bit of trigonometry.
+            const a = stepAngle*i; // this is the final angle of the cloud
+            const h = 750 + Math.random()*200; // this is the distance between the center of the axis and the cloud itself
+
+            // Trigonometry!!! I hope you remember what you've learned in Math :)
+            // in case you don't: 
+            // we are simply converting polar coordinates (angle, distance) into Cartesian coordinates (x, y)
+            c.position.y = Math.sin(a)*h;
+            c.position.x = Math.cos(a)*h;
+
+            // rotate the cloud according to its position
+            c.rotation.z = a + Math.PI/2;
+
+            // for a better result, we position the clouds 
+            // at random depths inside of the scene
+            c.position.z = -400-Math.random()*400;
+            
+            // we also set a random scale for each cloud
+            var s = 1+Math.random()*2;
+            c.scale.set(s,s,s);
+
+            // do not forget to add the mesh of each cloud in the scene
+            mesh.add(c);  
+          }
           geometry.computeBoundingSphere();
         },
 
-        remove: function () {
+        remove() {
           this.el.getObject3D('mesh').geometry = new THREE.Geometry();
         }
       });
 
       AFRAME.registerComponent('plane-controller', {
-        tick: function (time) {
-          var targetY = this._normalize(mouseInput.position.y, -.75,.75,25, 175);
-          var targetX = this._normalize(mouseInput.position.x, -.75,.75,-100, 100);
+        tick(time) {
+          const targetY = this._normalize(mouseInput.position.y, -.75,.75,25, 175);
+          const targetX = this._normalize(mouseInput.position.x, -.75,.75,-100, 100);
 
-          var object3D = this.el.object3D;
+          const object3D = this.el.object3D;
           
           // Move the plane at each frame by adding a fraction of the remaining distance.
           object3D.position.y += (targetY - object3D.position.y) * 0.1;
@@ -163,11 +210,11 @@
         },
 
         _normalize: function (v, vmin, vmax, tmin, tmax){
-          var nv = Math.max(Math.min(v,vmax), vmin);
-          var dv = vmax - vmin;
-          var pc = (nv - vmin) / dv;
-          var dt = tmax - tmin;
-          var tv = tmin + (pc * dt);
+          const nv = Math.max(Math.min(v,vmax), vmin);
+          const dv = vmax - vmin;
+          const pc = (nv - vmin) / dv;
+          const dt = tmax - tmin;
+          const tv = tmin + (pc * dt);
           return tv;
         }
       });
@@ -189,26 +236,26 @@
           geometry="primitive: box; width: 80; height: 50; depth: 50; buffer: false" 
           shadow="cast: true; receive: true"
           position="0 0 0" 
-          material="color: #f25346; shading: flat; shader: phong"
+          material="color: #f25346; flatShading: true"
           cockpit="cool"></a-entity>
 
         <a-entity id="engine" 
           geometry="primitive: box; width: 20; height: 50; depth: 50; buffer: false" 
           shadow="cast: true; receive: true"
           position="40 0 0" 
-          material="color: #d8d0d1; shading: flat; shader: phong"></a-entity>
+          material="color: #d8d0d1; flatShading: true"></a-entity>
 
         <a-entity id="tail"
           geometry="primitive: box; width: 15; height: 20; depth: 5; buffer: false"  
           shadow="cast: true; receive: true" 
           position="-35 25 0" 
-          material="color: #f25346; shading: flat; shader: phong"></a-entity>
+          material="color: #f25346; flatShading: true"></a-entity>
         
         <a-entity id="wing" 
           geometry="primitive: box; width: 30; height: 5; depth: 120; buffer: false"  
           shadow="cast: true; receive: true"
           position="0 15 0" 
-          material="color: #f25346; shading: flat; shader: phong"></a-entity>
+          material="color: #f25346; flatShading: true"></a-entity>
 
         <!-- Right Wheel --> 
 
@@ -216,19 +263,19 @@
           geometry="primitive: box; width: 30; height: 15; depth: 10; buffer: false"  
           shadow="cast: true; receive: true"
           position="25 -20 25" 
-          material="color: #f25346; shading: flat; shader: phong"></a-entity>
+          material="color: #f25346; flatShading: true"></a-entity>
 
         <a-entity id="tire-r" 
           geometry="primitive: box; width: 24; height: 24; depth: 4; buffer: false" 
           shadow="cast: true; receive: true"
           position="25 -28 25" 
-          material="color: #23190f; shading: flat; shader: phong">
+          material="color: #23190f; flatShading: true">
 
           <a-entity id="tire-axis-r" 
             geometry="primitive: box; width: 10; height: 10; depth: 6; buffer: false" 
             shadow="cast: true; receive: true"
             position="0 0 0" 
-            material="color: #59332e; shading: flat; shader: phong"></a-entity>
+            material="color: #59332e; flatShading: true"></a-entity>
         </a-entity>
 
         <!-- Left Wheel --> 
@@ -237,19 +284,19 @@
           geometry="primitive: box; width: 30; height: 15; depth: 10; buffer: false"  
           shadow="cast: true; receive: true"
           position="25 -20 -25" 
-          material="color: #f25346; shading: flat; shader: phong"></a-entity>
+          material="color: #f25346; flatShading: true"></a-entity>
 
         <a-entity id="tire-l" 
           geometry="primitive: box; width: 24; height: 24; depth: 4; buffer: false" 
           shadow="cast: true; receive: true"
           position="25 -28 -25" 
-          material="color: #23190f; shading: flat; shader: phong">
+          material="color: #23190f; flatShading: true">
 
           <a-entity id="tire-axis-l" 
             geometry="primitive: box; width: 10; height: 10; depth: 6; buffer: false" 
             shadow="cast: true; receive: true"
             position="0 0 0" 
-            material="color: #59332e; shading: flat; shader: phong"></a-entity>
+            material="color: #59332e; flatShading: true"></a-entity>
         </a-entity>
 
         <!-- Back Wheel --> 
@@ -259,13 +306,13 @@
           shadow="cast: true; receive: true"
           position="-35 -5 0" 
           scale=".5 .5 .5"
-          material="color: #23190f; shading: flat; shader: phong">
+          material="color: #23190f; flatShading: true">
 
           <a-entity id="tire-axis-b" 
             geometry="primitive: box; width: 10; height: 10; depth: 6; buffer: false" 
             shadow="cast: true; receive: true"
             position="0 0 0" 
-            material="color: #59332e; shading: flat; shader: phong"></a-entity>
+            material="color: #59332e; flatShading: true"></a-entity>
         </a-entity>
 
         <a-entity id="suspension" 
@@ -273,21 +320,20 @@
           shadow="cast: true; receive: true"
           position="-32 3 0" 
           rotation="0 0 -17"
-          material="color: #f25346; shading: flat; shader: phong"></a-entity>
-
+          material="color: #f25346; flatShading: true"></a-entity>
 
         <a-entity>
           <a-entity id="propeller" 
             geometry="primitive: box; width: 20; height: 10; depth: 10; buffer: false" 
             shadow="cast: true; receive: true"
             position="50 0 0" 
-            material="color: #59332e; shading: flat; shader: phong">
+            material="color: #59332e; flatShading: true">
 
             <a-entity id="blade"  
               geometry="primitive: box; width: 1; height: 100; depth: 10; buffer: false" 
               shadow="cast: true; receive: true"
               position="8 0 0" 
-              material="color: #23190f; shading: flat; shader: phong"></a-entity>
+              material="color: #23190f; flatShading: true"></a-entity>
 
             <a-animation attribute="rotation"
                dur="250"
@@ -302,45 +348,47 @@
           <a-entity id="body"  
             geometry="primitive: box; width: 15; height: 15; depth: 15" 
             position="2 -12 0" 
-            material="color: #59332e; shading: flat; shader: phong"></a-entity>
+            material="color: #59332e; flatShading: true"></a-entity>
 
           <a-entity id="face"  
             geometry="primitive: box; width: 10; height: 10; depth: 10"
             position="0 0 0" 
-            material="color: #F5986E; shading: flat; shader: phong"></a-entity>
+            material="color: #F5986E; flatShading: true"></a-entity>
 
           <a-entity id="glass-right"  
             geometry="primitive: box; width: 5; height: 5; depth: 5"
             position="6 0 3" 
-            material="color: #59332e; shading: flat; shader: phong"></a-entity>
+            material="color: #59332e; flatShading: true"></a-entity>
 
           <a-entity id="glass-left"  
             geometry="primitive: box; width: 5; height: 5; depth: 5"
             position="6 0 -3" 
-            material="color: #59332e; shading: flat; shader: phong"></a-entity>
+            material="color: #59332e; flatShading: true"></a-entity>
 
           <a-entity id="glass-a"  
             geometry="primitive: box; width: 11; height: 1; depth: 11"
             position="0 0 0" 
-            material="color: #59332e; shading: flat; shader: phong"></a-entity>
+            material="color: #59332e; flatShading: true"></a-entity>
 
           <a-entity id="ear-right"  
             geometry="primitive: box; width: 2; height: 3; depth: 2"
             position="0 0 6" 
-            material="color: #59332e; shading: flat; shader: phong"></a-entity>
+            material="color: #59332e; flatShading: true"></a-entity>
 
           <a-entity id="ear-left"  
             geometry="primitive: box; width: 2; height: 3; depth: 2"
             position="0 0 -6" 
-            material="color: #F5986E; shading: flat; shader: phong"></a-entity>
+            material="color: #F5986E; flatShading: true"></a-entity>
         </a-entity>
       </a-entity>
+
+      <a-entity sky material="color: white" position="0 -600 0"></a-entity>
 
       <a-entity id="sea" geometry="primitive: cylinder; height: 800; radius: 600; segmentsRadial: 40; segmentsHeight: 10; buffer: false" 
           position="0 -600 0" 
           rotation="-90 0 0"
           shadow="receive: true"
-          material="color: #68c3c0; opacity: .8; transparent: true; shading: flat; shader: phong"
+          material="color: #68c3c0; opacity: .8; transparent: true; flatShading: true"
           with-waves></a-entity>
 
       <a-entity position="0 100 200">
