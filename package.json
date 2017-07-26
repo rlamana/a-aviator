@@ -13,5 +13,8 @@
   "keywords": [
     "aframe",
     "aframe-example"
-  ]
+  ],
+  "scripts": {
+    "serve": "python -m SimpleHTTPServer"
+  }
 }

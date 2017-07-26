@@ -1,3 +1,12 @@
+/*!
+ * a-aviator <https://github.com/rlamana/a-aviator>
+ *
+ * Copyright (c) 2017, Ramon Lamana.
+ * Based on Karim Maaloul's code for 'The Aviator': 
+ *    <https://github.com/yakudoo/TheAviator>
+ * 
+ * Released under the MIT License.
+ */
 
 /**
  * Enables shadowMap in renderer.
@@ -14,12 +23,13 @@ AFRAME.registerComponent('shadows', {
   }
 });
 
-
 /**
- * Sets object's castShadow and receiveShadow properties.
+ * Sets entities's castShadow and receiveShadow properties.
  * Works on entities with 'geometry' and/or 'light' components.
  */
-AFRAME.registerComponent('shadow', {
+AFRAME.registerComponent('cast-shadow', {
+  dependencies: ['geometry'],
+
   schema: {
     cast:         { default: false },
     receive:      { default: false },
@@ -35,17 +45,16 @@ AFRAME.registerComponent('shadow', {
 
   update() {
     let object;
-    const data = this.data;
     if (this.el.hasAttribute('light')) {
       const light = this.el.getObject3D('light');
-      light.shadow.camera.left    = data['cameraLeft'] || -400;
-      light.shadow.camera.right   = data['cameraRight'] || 400;
-      light.shadow.camera.top     = data['cameraTop'] || 400;
-      light.shadow.camera.bottom  = data['cameraBottom'] || -400;
-      light.shadow.camera.near    = data['cameraNear'] || 1;
-      light.shadow.camera.far     = data['cameraFar'] || 1000;
-      light.shadow.mapSize.width  = data['mapWidth'] || 2048;
-      light.shadow.mapSize.height = data['mapHeight'] || 2048;
+      light.shadow.camera.left    = this.data['cameraLeft'] || -400;
+      light.shadow.camera.right   = this.data['cameraRight'] || 400;
+      light.shadow.camera.top     = this.data['cameraTop'] || 400;
+      light.shadow.camera.bottom  = this.data['cameraBottom'] || -400;
+      light.shadow.camera.near    = this.data['cameraNear'] || 1;
+      light.shadow.camera.far     = this.data['cameraFar'] || 1000;
+      light.shadow.mapSize.width  = this.data['mapWidth'] || 2048;
+      light.shadow.mapSize.height = this.data['mapHeight'] || 2048;
       object = light;
     } else if (this.el.hasAttribute('geometry')) {
       object = this.el.getOrCreateObject3D('mesh', THREE.Mesh);
