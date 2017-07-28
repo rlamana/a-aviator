@@ -1,5 +1,5 @@
 # A-Aviator
-A-Aviator: Karim Maaloul's 'The Aviator' using A-Frame.
+A-Aviator: Implementation of Karim Maaloul's 'The Aviator' using A-Frame.
 
 [Demo](https://rlamana.github.io/a-aviator/)
 
