@@ -2,9 +2,9 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>A-Aviator: Aviator using A-Frame</title>
-    <!-- <script src="https://aframe.io/releases/0.6.1/aframe.js"></script> -->
-    <script src="node_modules/aframe/dist/aframe-master.js"></script>
+    <title>A-Aviator: The Aviator using A-Frame</title>
+     <script src="https://aframe.io/releases/0.6.1/aframe.js"></script> 
+    <!-- <script src="node_modules/aframe/dist/aframe-master.js"></script> -->
 
     <script src="shadows.js"></script>
     <script src="cockpit.js"></script>
@@ -186,7 +186,8 @@
         position="0 -600 0" 
         clouds></a-entity>
 
-      <a-entity id="sea" geometry="primitive: cylinder; height: 800; radius: 600; segmentsRadial: 40; segmentsHeight: 10; buffer: false" 
+      <a-entity id="sea" 
+        geometry="primitive: cylinder; height: 800; radius: 600; segmentsRadial: 40; segmentsHeight: 10; buffer: false" 
         position="0 -600 0" 
         rotation="-90 0 0"
         cast-shadow="receive: true"
@@ -194,7 +195,8 @@
         waves></a-entity>
 
       <a-entity position="0 100 200">
-        <a-entity camera="fov:60; far:10000; near:1" look-controls></a-entity>
+        <a-entity camera="fov:60; far:10000; near:1" 
+          look-controls></a-entity>
       </a-entity>
     </a-scene>
   </body>
