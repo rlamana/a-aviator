@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <title>A-Aviator: The Aviator using A-Frame</title>
-     <script src="https://aframe.io/releases/0.6.1/aframe.js"></script> 
-    <!-- <script src="node_modules/aframe/dist/aframe-master.js"></script> -->
+      <script src="https://aframe.io/releases/0.6.1/aframe.js"></script>  
+     <!-- <script src="node_modules/aframe/dist/aframe-master.js"></script> -->
 
     <script src="shadows.js"></script>
     <script src="cockpit.js"></script>
@@ -19,10 +19,6 @@
         <a-mixin id="red" material="color: red"></a-mixin>
       </a-assets>
 
-      <a-entity light="type: hemisphere; color: #aaaaaa; groundColor: #000000; intensity: 0.9" position="0 0 0"></a-entity>
-      <a-entity light="type: directional; color: #ffffff; intensity: 0.9" position="150 350 350" cast-shadow="cast: true"></a-entity>
-      <a-entity light="type: ambient; intensity: .5; color: #dc8874;"></a-entity>
-
       <a-entity id="airplane" position="0 100 0" scale=".25 .25 .25" plane-controller>
         <a-entity 
           id="cabin"  
@@ -35,13 +31,13 @@
         <a-entity id="engine" 
           geometry="primitive: box; width: 20; height: 50; depth: 50; buffer: false" 
           cast-shadow="cast: true; receive: true"
-          position="40 0 0" 
+          position="50 0 0" 
           material="color: #d8d0d1; flatShading: true"></a-entity>
 
         <a-entity id="tail"
           geometry="primitive: box; width: 15; height: 20; depth: 5; buffer: false"  
           cast-shadow="cast: true; receive: true" 
-          position="-35 25 0" 
+          position="-40 20 0" 
           material="color: #f25346; flatShading: true"></a-entity>
         
         <a-entity id="wing" 
@@ -56,7 +52,7 @@
           geometry="primitive: box; width: 30; height: 15; depth: 10; buffer: false"  
           cast-shadow="cast: true; receive: true"
           position="25 -20 25" 
-          material="color: #f25346; flatShading: true"></a-entity>
+          material="color: #f25346; shader: flat"></a-entity>
 
         <a-entity id="tire-r" 
           geometry="primitive: box; width: 24; height: 24; depth: 4; buffer: false" 
@@ -119,11 +115,11 @@
           <a-entity id="propeller" 
             geometry="primitive: box; width: 20; height: 10; depth: 10; buffer: false" 
             cast-shadow="cast: true; receive: true"
-            position="50 0 0" 
+            position="60 0 0"
             material="color: #59332e; flatShading: true">
 
             <a-entity id="blade"  
-              geometry="primitive: box; width: 1; height: 100; depth: 10; buffer: false" 
+              geometry="primitive: box; width: 1; height: 80; depth: 15; buffer: false" 
               cast-shadow="cast: true; receive: true"
               position="8 0 0" 
               material="color: #23190f; flatShading: true"></a-entity>
@@ -149,7 +145,7 @@
             material="color: #F5986E; flatShading: true"></a-entity>
 
           <a-entity id="hair"
-            position="0 2 0"
+            position="0 0 0"
             material="color: #59332e; flatShading: true" 
             hair>
           </a-entity>
@@ -184,7 +180,14 @@
       <a-entity id="clouds" 
         material="color: white" 
         position="0 -600 0" 
-        clouds></a-entity>
+        clouds>
+        <a-animation attribute="rotation"
+          dur="9000"
+          fill="forwards"
+          to="0 0 360"
+          easing="linear"
+          repeat="indefinite"></a-animation>
+      </a-entity>
 
       <a-entity id="sea" 
         geometry="primitive: cylinder; height: 800; radius: 600; segmentsRadial: 40; segmentsHeight: 10; buffer: false" 
@@ -198,6 +201,10 @@
         <a-entity camera="fov:60; far:10000; near:1" 
           look-controls></a-entity>
       </a-entity>
+
+      <a-entity light="type: hemisphere; color: #aaaaaa; groundColor: #000000; intensity: 0.9" position="0 0 0"></a-entity>
+      <a-entity light="type: directional; color: #ffffff; intensity: 1.0" position="150 350 350" cast-shadow="cast: true"></a-entity>
+      <a-entity light="type: ambient; intensity: .7; color: #dc8874;"></a-entity>
     </a-scene>
   </body>
 </html>
