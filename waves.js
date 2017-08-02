@@ -35,7 +35,7 @@ AFRAME.registerComponent('waves', {
     };
   },
 
-  tick(time) {
+  tick(time, timeDelta) {
     const mesh = this.el.getOrCreateObject3D('mesh', THREE.Mesh);
 
     for (let i = 0; i < mesh.geometry.vertices.length; i++){
@@ -55,6 +55,6 @@ AFRAME.registerComponent('waves', {
     // three.js caches the geometries and ignores any changes
     // unless we add this line.
     mesh.geometry.verticesNeedUpdate = true;
-    mesh.rotation.y -= .005;
+    mesh.rotation.y -= .0005 * timeDelta;
   }
 });

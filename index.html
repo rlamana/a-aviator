@@ -8,6 +8,7 @@
 
     <script src="shadows.js"></script>
     <script src="cockpit.js"></script>
+    <script src="propeller.js"></script>
     <script src="clouds.js"></script>
     <script src="hair.js"></script>
     <script src="waves.js"></script>
@@ -111,26 +112,25 @@
           rotation="0 0 -17"
           material="color: #f25346; flatShading: true"></a-entity>
 
-        <a-entity>
-          <a-entity id="propeller" 
-            geometry="primitive: box; width: 20; height: 10; depth: 10; buffer: false" 
+        <a-entity id="propeller" 
+          geometry="primitive: box; width: 20; height: 10; depth: 10; buffer: false" 
+          cast-shadow="cast: true; receive: true"
+          position="60 0 0"
+          material="color: #59332e; flatShading: true"
+          propeller>
+
+          <a-entity id="blade1"  
+            geometry="primitive: box; width: 1; height: 80; depth: 15; buffer: false" 
             cast-shadow="cast: true; receive: true"
-            position="60 0 0"
-            material="color: #59332e; flatShading: true">
+            position="8 0 0" 
+            material="color: #23190f; flatShading: true"></a-entity>
 
-            <a-entity id="blade"  
-              geometry="primitive: box; width: 1; height: 80; depth: 15; buffer: false" 
-              cast-shadow="cast: true; receive: true"
-              position="8 0 0" 
-              material="color: #23190f; flatShading: true"></a-entity>
-
-            <a-animation attribute="rotation"
-               dur="250"
-               fill="forwards"
-               to="360 0 0"
-               easing="linear"
-               repeat="indefinite"></a-animation>
-          </a-entity>
+          <a-entity id="blade2"  
+            geometry="primitive: box; width: 1; height: 80; depth: 15; buffer: false" 
+            cast-shadow="cast: true; receive: true"
+            position="8 0 0" 
+            rotation="90 0 0"
+            material="color: #23190f; flatShading: true"></a-entity>
         </a-entity>
 
         <a-entity id="pilot" position="-10 27 0">
@@ -181,12 +181,6 @@
         material="color: white" 
         position="0 -600 0" 
         clouds>
-        <a-animation attribute="rotation"
-          dur="9000"
-          fill="forwards"
-          to="0 0 360"
-          easing="linear"
-          repeat="indefinite"></a-animation>
       </a-entity>
 
       <a-entity id="sea" 
@@ -197,8 +191,8 @@
         material="color: #68c3c0; opacity: .8; transparent: true; flatShading: true"
         waves></a-entity>
 
-      <a-entity position="0 100 200">
-        <a-entity camera="fov:60; far:10000; near:1" 
+      <a-entity position="50 100 200" rotation="0 6 0">
+        <a-entity camera="fov:50; far:10000; near:.1" 
           look-controls></a-entity>
       </a-entity>
 

@@ -95,5 +95,11 @@ AFRAME.registerComponent('clouds', {
 
   remove() {
     this.el.getObject3D('mesh').geometry = new THREE.Geometry();
+  },
+
+  tick(time, timeDelta) {
+    // Rotate clouds.
+    const object3D = this.el.object3D;
+    object3D.rotateZ(.0005 * timeDelta);
   }
 });

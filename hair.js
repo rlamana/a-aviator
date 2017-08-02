@@ -64,11 +64,11 @@ AFRAME.registerComponent('hair', {
     mesh.add(hairs);
   },
 
-  tick(time) {
-    this._updateHairs();
+  tick(time, timeDelta) {
+    this._updateHairs(timeDelta);
   },
 
-  _updateHairs() {
+  _updateHairs(timeDelta) {
     // Get the hair.
     const hairs = this._hairsTop.children;
 
@@ -80,6 +80,6 @@ AFRAME.registerComponent('hair', {
       h.scale.y = .75 + Math.cos(this._angleHairs + i / 3) * .25;
     }
     // Increment the angle for the next frame.
-    this._angleHairs += 0.16;
+    this._angleHairs += timeDelta * .010;
   }
 });
