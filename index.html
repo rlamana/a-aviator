@@ -17,163 +17,153 @@
   <body style="background: linear-gradient(#e4e0ba, #f7d9aa);">
     <a-scene fog="type: linear; color: #f7d9aa; near: 100; far: 950" shadows="true">
       <a-assets>
-        <a-mixin id="red" material="color: red"></a-mixin>
+        <a-mixin id="cast-shadow" cast-shadow="cast: true; receive: true">
+        <a-mixin id="material-red" material="color: #f25346; flatShading: true"></a-mixin>
+        <a-mixin id="material-white" material="color: #d8d0d1; flatShading: true"></a-mixin>
+        <a-mixin id="material-brown" material="color: #59332e; flatShading: true"></a-mixin>
+        <a-mixin id="material-pink" material="color: #F5986E; flatShading: true"></a-mixin>
+        <a-mixin id="material-brown-dark" material="color: #23190f; flatShading: true"></a-mixin>
       </a-assets>
 
       <a-entity id="airplane" position="0 100 0" scale=".25 .25 .25" plane-controller>
         <a-entity 
           id="cabin"  
           geometry="primitive: box; width: 80; height: 50; depth: 50; buffer: false" 
-          cast-shadow="cast: true; receive: true"
           position="0 0 0" 
-          material="color: #f25346; flatShading: true"
+          mixin="material-red cast-shadow"
           cockpit="cool"></a-entity>
 
         <a-entity id="engine" 
           geometry="primitive: box; width: 20; height: 50; depth: 50; buffer: false" 
-          cast-shadow="cast: true; receive: true"
           position="50 0 0" 
-          material="color: #d8d0d1; flatShading: true"></a-entity>
+          mixin="material-white cast-shadow"></a-entity>
 
         <a-entity id="tail"
           geometry="primitive: box; width: 15; height: 20; depth: 5; buffer: false"  
           cast-shadow="cast: true; receive: true" 
           position="-40 20 0" 
-          material="color: #f25346; flatShading: true"></a-entity>
+          mixin="material-red"></a-entity>
         
         <a-entity id="wing" 
           geometry="primitive: box; width: 30; height: 5; depth: 120; buffer: false"  
-          cast-shadow="cast: true; receive: true"
           position="0 15 0" 
-          material="color: #f25346; flatShading: true"></a-entity>
+          mixin="material-red cast-shadow"></a-entity>
 
         <!-- Right Wheel --> 
 
         <a-entity id="wheel-r" 
           geometry="primitive: box; width: 30; height: 15; depth: 10; buffer: false"  
-          cast-shadow="cast: true; receive: true"
           position="25 -20 25" 
-          material="color: #f25346; shader: flat"></a-entity>
+          mixin="material-red cast-shadow"></a-entity>
 
         <a-entity id="tire-r" 
           geometry="primitive: box; width: 24; height: 24; depth: 4; buffer: false" 
-          cast-shadow="cast: true; receive: true"
           position="25 -28 25" 
-          material="color: #23190f; flatShading: true">
+          mixin="material-brown-dark cast-shadow">
 
           <a-entity id="tire-axis-r" 
             geometry="primitive: box; width: 10; height: 10; depth: 6; buffer: false" 
-            cast-shadow="cast: true; receive: true"
             position="0 0 0" 
-            material="color: #59332e; flatShading: true"></a-entity>
+            mixin="material-brown cast-shadow"></a-entity>
         </a-entity>
 
         <!-- Left Wheel --> 
 
         <a-entity id="wheel-l" 
           geometry="primitive: box; width: 30; height: 15; depth: 10; buffer: false"  
-          cast-shadow="cast: true; receive: true"
           position="25 -20 -25" 
-          material="color: #f25346; flatShading: true"></a-entity>
+          mixin="material-red cast-shadow"></a-entity>
 
         <a-entity id="tire-l" 
           geometry="primitive: box; width: 24; height: 24; depth: 4; buffer: false" 
-          cast-shadow="cast: true; receive: true"
           position="25 -28 -25" 
-          material="color: #23190f; flatShading: true">
+          mixin="material-brown-dark cast-shadow">
 
           <a-entity id="tire-axis-l" 
             geometry="primitive: box; width: 10; height: 10; depth: 6; buffer: false" 
-            cast-shadow="cast: true; receive: true"
             position="0 0 0" 
-            material="color: #59332e; flatShading: true"></a-entity>
+            mixin="material-brown cast-shadow"></a-entity>
         </a-entity>
 
         <!-- Back Wheel --> 
 
         <a-entity id="tire-b" 
           geometry="primitive: box; width: 24; height: 24; depth: 4; buffer: false" 
-          cast-shadow="cast: true; receive: true"
           position="-35 -5 0" 
           scale=".5 .5 .5"
-          material="color: #23190f; flatShading: true">
+          mixin="material-brown-dark cast-shadow">
 
           <a-entity id="tire-axis-b" 
             geometry="primitive: box; width: 10; height: 10; depth: 6; buffer: false" 
-            cast-shadow="cast: true; receive: true"
             position="0 0 0" 
-            material="color: #59332e; flatShading: true"></a-entity>
+            mixin="material-brown cast-shadow"></a-entity>
         </a-entity>
 
         <a-entity id="suspension" 
           geometry="primitive: box; width: 4; height: 20; depth: 4; buffer: false"  
-          cast-shadow="cast: true; receive: true"
           position="-32 3 0" 
           rotation="0 0 -17"
-          material="color: #f25346; flatShading: true"></a-entity>
+          mixin="material-red cast-shadow"></a-entity>
 
         <a-entity id="propeller" 
           geometry="primitive: box; width: 20; height: 10; depth: 10; buffer: false" 
-          cast-shadow="cast: true; receive: true"
           position="60 0 0"
-          material="color: #59332e; flatShading: true"
+          mixin="material-brown cast-shadow"
           propeller>
 
           <a-entity id="blade1"  
             geometry="primitive: box; width: 1; height: 80; depth: 15; buffer: false" 
-            cast-shadow="cast: true; receive: true"
             position="8 0 0" 
-            material="color: #23190f; flatShading: true"></a-entity>
+            mixin="material-brown-dark cast-shadow"></a-entity>
 
           <a-entity id="blade2"  
             geometry="primitive: box; width: 1; height: 80; depth: 15; buffer: false" 
-            cast-shadow="cast: true; receive: true"
             position="8 0 0" 
             rotation="90 0 0"
-            material="color: #23190f; flatShading: true"></a-entity>
+            mixin="material-brown-dark cast-shadow"></a-entity>
         </a-entity>
 
         <a-entity id="pilot" position="-10 27 0">
           <a-entity id="body"
             geometry="primitive: box; width: 15; height: 15; depth: 15" 
             position="2 -12 0" 
-            material="color: #59332e; flatShading: true"></a-entity>
+            mixin="material-brown cast-shadow"></a-entity>
 
           <a-entity id="face"
             geometry="primitive: box; width: 10; height: 10; depth: 10"
             position="0 0 0" 
-            material="color: #F5986E; flatShading: true"></a-entity>
+            mixin="material-pink"></a-entity>
 
           <a-entity id="hair"
             position="0 0 0"
-            material="color: #59332e; flatShading: true" 
+            mixin="material-brown"
             hair>
           </a-entity>
 
           <a-entity id="glass-right"  
             geometry="primitive: box; width: 5; height: 5; depth: 5"
             position="6 0 3" 
-            material="color: #59332e; flatShading: true"></a-entity>
+            mixin="material-brown"></a-entity>
 
           <a-entity id="glass-left"  
             geometry="primitive: box; width: 5; height: 5; depth: 5"
             position="6 0 -3" 
-            material="color: #59332e; flatShading: true"></a-entity>
+            mixin="material-brown"></a-entity>
 
           <a-entity id="glass-a"  
             geometry="primitive: box; width: 11; height: 1; depth: 11"
             position="0 0 0" 
-            material="color: #59332e; flatShading: true"></a-entity>
+            mixin="material-brown"></a-entity>
 
           <a-entity id="ear-right"  
             geometry="primitive: box; width: 2; height: 3; depth: 2"
             position="0 0 6" 
-            material="color: #59332e; flatShading: true"></a-entity>
+            mixin="material-brown"></a-entity>
 
           <a-entity id="ear-left"  
             geometry="primitive: box; width: 2; height: 3; depth: 2"
             position="0 0 -6" 
-            material="color: #F5986E; flatShading: true"></a-entity>
+            mixin="material-pink"></a-entity>
         </a-entity>
       </a-entity>
 
@@ -192,8 +182,7 @@
         waves></a-entity>
 
       <a-entity position="50 100 200" rotation="0 6 0">
-        <a-entity camera="fov:50; far:10000; near:.1" 
-          look-controls></a-entity>
+        <a-entity camera="fov:50; far:10000; near:.1" look-controls></a-entity>
       </a-entity>
 
       <a-entity light="type: hemisphere; color: #aaaaaa; groundColor: #000000; intensity: 0.9" position="0 0 0"></a-entity>
